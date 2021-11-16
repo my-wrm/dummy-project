@@ -3,8 +3,8 @@ name: Auto merge when label to "to deploy" (dev)
 on:
   pull_request:
     types: [ labeled ]
-    branches: 
-      - preview/dev
+#     branches: 
+#       - preview/dev
 
 jobs:
 
