@@ -1,6 +1,7 @@
 name: Auto merge when label to "to deploy" (dev)
 
 on:
+  workflow_dispatch:
   pull_request:
     types: [ labeled ]
 #     branches: 
