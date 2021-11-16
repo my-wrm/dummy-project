@@ -10,7 +10,7 @@ on:
       - labeled
 jobs:
   add-comment:
-    if: github.event.label.name == '[workflow] to deploy'
+    if: github.event.label.name == 'help wanted'
     runs-on: ubuntu-latest
     permissions:
       issues: write
