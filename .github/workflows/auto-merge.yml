@@ -25,7 +25,7 @@ jobs:
         cd dummy-project
         git fetch origin
         git checkout ${{ github.event.pull_request.base.ref }}
-        git merge --no-ff ${{ github.event.pull_request.head.ref }}
+        git merge --no-ff origin/${{ github.event.pull_request.head.ref }}
         git push origin ${{ github.event.pull_request.base.ref }}
 
     - name: Send greeting
