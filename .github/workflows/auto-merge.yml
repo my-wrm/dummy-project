@@ -6,10 +6,13 @@ on:
 #     branches: 
 #       - preview/dev
 
+env:
+  target_branch: preview/dev
+
 jobs:
 
   build:
-    if: github.event.label.name == '[workflow] to deploy'
+    if: github.event.label.name == '[workflow] to deploy' && github.event.pull_request.base.ref == env.target_branch
     runs-on: ubuntu-latest
 
     steps:
