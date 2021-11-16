@@ -1,7 +1,6 @@
 name: Auto merge when label to "to deploy" (dev)
 
 on:
-  workflow_dispatch:
   pull_request:
     types: [ labeled ]
 #     branches: 
@@ -10,7 +9,7 @@ on:
 jobs:
 
   build:
-#     if: ${{ github.event.label.name == '[workflow] to deploy' }}
+    if: github.event.label.name == '[workflow] to deploy'
     runs-on: ubuntu-latest
 
     steps:
