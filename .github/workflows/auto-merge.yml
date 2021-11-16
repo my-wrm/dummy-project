@@ -8,11 +8,11 @@ on:
 jobs:
 
   build:
-    if: ${{ github.event.label.name == '[workflow] to deploy' }}
+#     if: ${{ github.event.label.name == '[workflow] to deploy' }}
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
     - name: Send greeting
       run: |
-        echo ">> ${{ toJSON(github.event.action) }}"
+        echo ">> ${{ toJSON(github.event.label.name) }}"
