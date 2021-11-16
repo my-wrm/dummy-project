@@ -16,10 +16,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    # - uses: actions/checkout@v2
+    #   with:
+    #     ref: ''
+    - name: merge
+      run: |
+        git clone https://mywrm:${{ env.access_token }}@github.com/my-wrm/dummy-project
+        git checkout ${{ github.event.pull_request.base.ref }}
+        git merge --no-ff ${{ github.event.pull_request.head.ref }}
+        git push origin ${{ github.event.pull_request.base.ref }}
+
     - name: Send greeting
       run: |
-        git branch --show-current 
         echo ">> ${{ toJSON(github.event.pull_request) }}"
 
 #   Job1:
