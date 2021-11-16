@@ -10,7 +10,7 @@ on:
       - labeled
 jobs:
   add-comment:
-    if: github.event.label.name == 'help wanted'
+    if: github.event.label.name == '[workflow] to deploy'
     runs-on: ubuntu-latest
     permissions:
       issues: write
@@ -20,4 +20,4 @@ jobs:
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
-            This issue is available for anyone to work on. **Make sure to reference this issue in your pull request.** :sparkles: Thank you for your contribution! :sparkles:
+            Test to deploy :sparkles:
