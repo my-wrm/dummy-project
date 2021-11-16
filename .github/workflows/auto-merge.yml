@@ -16,4 +16,12 @@ jobs:
     - uses: actions/checkout@v2
     - name: Send greeting
       run: |
-        echo ">> ${{ toJSON(github.event.label.name) }}"
+        echo ">> ${{ toJSON(github.event.pull_request) }}"
+
+#   Job1:
+#     name: Job1
+#     runs-on: ubuntu-latest
+#     if: github.event.pull_request.base.ref == 'master'   # check the target branch if it's master
+#     steps:
+#         - name: trigger
+#           run: echo "Hii"
