@@ -28,7 +28,8 @@ jobs:
         git fetch origin
         git checkout ${{ github.event.pull_request.base.ref }}
         git merge --no-ff origin/${{ github.event.pull_request.head.ref }}
-# git push origin ${{ github.event.pull_request.base.ref }}
+        git remote -v
+        git push origin
 
     - name: Send greeting
       run: |
