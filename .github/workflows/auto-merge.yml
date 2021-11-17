@@ -33,6 +33,7 @@ jobs:
     - name: push
       run: |
         cd dummy-project
+        git remote set-url --push origin https://mywrm:${{ env.access_token }}@github.com/my-wrm/dummy-project.git
         git push
 
     - name: Send greeting
