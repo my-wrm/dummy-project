@@ -13,7 +13,7 @@ env:
 
 jobs:
   build:
-    if: ${{ github.event.label.name == env.deploy_label }}
+    if: github.event.label.name == 'to deploy'
     runs-on: ubuntu-latest
     steps:
     - name: merge
