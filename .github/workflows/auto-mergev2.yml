@@ -10,7 +10,7 @@ env:
 jobs:
 # github.event.pull_request.head.ref
   build:
-    if: github.event.label.name == '[workflow] to deploy' && github.event.pull_request.base.ref == 'preview/dev'
+    # if: github.event.label.name == '[workflow] to deploy' && github.event.pull_request.base.ref == 'preview/dev'
     runs-on: ubuntu-latest
 
     steps:
