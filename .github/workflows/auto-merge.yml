@@ -24,6 +24,7 @@ jobs:
         git config --global user.email "my@wrmsoftware.com"
         git config --global user.name "Merge script"
         git remote -v
+        git branch
         git merge --no-ff origin/${{ github.event.pull_request.head.ref }}
 
     - name: push
