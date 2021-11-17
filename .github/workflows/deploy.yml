@@ -19,7 +19,7 @@ jobs:
           PR_TITLE=$(echo $PR_ITEM | awk '{ print $2 }')
           gh pr edit $PR_NUMBER --remove-label '${{ env.ready_label }}' --repo my-wrm/dummy-project
           gh pr edit $PR_NUMBER --add-label '${{ env.deployed_label }}' --repo my-wrm/dummy-project
-          echo "::notice title=Deploying #$PR_ITEM::_"
+          echo "::notice title=Deploying Pull Request::#$PR_ITEM"
         done < pr.txt
         
       env:

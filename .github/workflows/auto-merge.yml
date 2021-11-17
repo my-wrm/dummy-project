@@ -18,6 +18,7 @@ jobs:
     - name: merge
       if: github.event.label.name == '${{ env.deploy_label }}'
       run: |
+        echo "label: ${{ env.deploy_label }}"
         echo "Merging... ${{ github.event.pull_request.title }} #${{ github.event.pull_request.number }}"
         gh pr merge ${{ github.event.pull_request.number }} --merge --repo my-wrm/dummy-project
         gh pr edit ${{ github.event.pull_request.number }} --remove-label '${{ env.deploy_label }}' --repo my-wrm/dummy-project
