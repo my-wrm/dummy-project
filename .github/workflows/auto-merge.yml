@@ -7,7 +7,9 @@ on:
       - labeled
 
 env:
+  repo: my-wrm/dummy-project
   deploy_label: to deploy
+  ready_label: ready to deploy
 
 
 jobs:
@@ -15,13 +17,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: merge
-      if: github.event.label.name == ${{ env.deploy_label }}
+      if: github.event.label.name == '${{ env.deploy_label }}'
       run: |
         echo "Merging... ${{ github.event.pull_request.title }} #${{ github.event.pull_request.number }}"
-        gh pr merge ${{ github.event.pull_request.number }} --repo my-wrm/dummy-project --merge
+        gh pr merge ${{ github.event.pull_request.number }} --merge --repo my-wrm/dummy-project
+        gh pr edit ${{ github.event.pull_request.number }} --remove-label '${{ env.deploy_label }}' --repo my-wrm/dummy-project
+        gh pr edit ${{ github.event.pull_request.number }} --add-label '${{ env.ready_label }}' --repo my-wrm/dummy-project
       env:
         GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
     - name: Send greeting
       run: |
+        echo "${{ toJSON(github.event.repository) }}"
         echo ">> ${{ toJSON(github.event.pull_request) }}"
+
