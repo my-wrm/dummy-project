@@ -10,6 +10,7 @@ jobs:
     - name: git checkout
       run: |
         git clone https://my-wrm:${{ secrets.ACCESS_TOKEN }}@github.com/my-wrm/dummy-project.git
+        cd dummy-project
         git checkout preview/dev
 # - uses: actions/checkout@v2
 #   with:
