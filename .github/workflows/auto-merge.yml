@@ -21,7 +21,7 @@ jobs:
     #     ref: '${{ github.event.pull_request.base.ref }}'
     - name: merge
       run: |
-        git clone https://mywrm:${{ env.access_token }}@github.com/my-wrm/dummy-project.git
+        git clone https://mywrm:${{ env.ACCESS_TOKEN }}@github.com/my-wrm/dummy-project.git
         cd dummy-project
         git config --global user.email "my@wrmsoftware.com"
         git config --global user.name "Merge script"
@@ -33,7 +33,7 @@ jobs:
     - name: push
       run: |
         cd dummy-project
-        git remote set-url --push origin https://mywrm:${{ env.access_token }}@github.com/my-wrm/dummy-project.git
+        git remote set-url --push origin https://mywrm:${{ env.ACCESS_TOKEN }}@github.com/my-wrm/dummy-project.git
         git push
 
     - name: Send greeting
