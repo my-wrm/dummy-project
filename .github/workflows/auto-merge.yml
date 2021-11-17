@@ -25,6 +25,9 @@ jobs:
         git config --global user.name "Merge script"
         git remote -v
         git merge --no-ff origin/${{ github.event.pull_request.head.ref }}
+
+    - name: push
+      run: |
         git push
 
     - name: Send greeting
