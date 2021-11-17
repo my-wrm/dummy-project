@@ -17,9 +17,9 @@ jobs:
         while read PR_ITEM; do
           PR_NUMBER=$(echo $PR_ITEM | awk '{ print $1 }')
           PR_TITLE=$(echo $PR_ITEM | awk '{ print $2 }')
-          echo "::notice title=Deploying #$PR_ITEM"
           gh pr edit $PR_NUMBER --remove-label '${{ env.ready_label }}' --repo my-wrm/dummy-project
           gh pr edit $PR_NUMBER --add-label '${{ env.deployed_label }}' --repo my-wrm/dummy-project
+          echo "::notice title=Deploying #$PR_ITEM::_"
         done < pr.txt
         
       env:
