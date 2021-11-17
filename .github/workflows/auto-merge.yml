@@ -13,10 +13,10 @@ env:
 
 jobs:
   build:
+    if: github.event.label.name == 'to deploy'
     runs-on: ubuntu-latest
     steps:
     - name: merge
-      if: github.event.label.name == '${{ env.deploy_label }}'
       run: |
         echo "label: ${{ env.deploy_label }}"
         echo "Merging... ${{ github.event.pull_request.title }} #${{ github.event.pull_request.number }}"
