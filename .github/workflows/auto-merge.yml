@@ -15,19 +15,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # - uses: actions/checkout@v2
-    #   with:
-    #     ref: ''
+    - uses: actions/checkout@v2
+      with:
+        token: '${{ env.access_token }}'
+        ref: '${{ github.event.pull_request.base.ref }}'
     - name: merge
       run: |
         git config --global user.email "my@wrmsoftware.com"
         git config --global user.name "Merge script"
-        git clone https://mywrm:${{ env.access_token }}@github.com/my-wrm/dummy-project.git
-        cd dummy-project
-        git fetch origin
-        git checkout ${{ github.event.pull_request.base.ref }}
         git merge --no-ff origin/${{ github.event.pull_request.head.ref }}
-        
+        git push
+
     - name: Send greeting
       run: |
         echo ">> ${{ toJSON(github.event.pull_request) }}"
