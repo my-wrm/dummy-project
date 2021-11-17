@@ -22,10 +22,10 @@ jobs:
     - name: merge
       run: |
         echo "Merging... ${{ github.event.pull_request.title }} #${{ github.event.pull_request.number }}"
+        gh pr merge ${{ github.event.pull_request.number }} --repo my-wrm/dummy-project --merge
+        
 # echo "${{ env.ACCESS_TOKEN }}" > token.txt
 # gh auth login --with-token < token.txt
-        gh pr merge ${{ github.event.pull_request.number }} --repo my-wrm/dummy-project --merge
-
 #     git clone https://mywrm:${{ env.ACCESS_TOKEN }}@github.com/my-wrm/dummy-project.git
 #     cd dummy-project
 #     git config --global user.email "my@wrmsoftware.com"
