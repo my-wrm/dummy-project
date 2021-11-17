@@ -1,4 +1,4 @@
-name: Deploy
+name: Reset Preview
 
 on:
   workflow_dispatch:
