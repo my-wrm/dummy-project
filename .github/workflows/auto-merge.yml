@@ -11,7 +11,6 @@ env:
   deploy_label: to deploy
   ready_label: ready to deploy
 
-
 jobs:
   build:
     runs-on: ubuntu-latest

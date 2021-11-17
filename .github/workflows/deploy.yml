@@ -1,0 +1,20 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+
+env:
+  ready_label: ready to deploy
+
+jobs:
+  deploy-info:
+    runs-on: ubuntu-latest
+    steps:
+    - name: show deploy info
+      run: |
+        gh pr list --label '${{ env.ready_label }}' --state merged --repo my-wrm/dummy-project > pr.txt
+        while read PR_ITEM; do
+            echo "::notice title=Deploying Pull Request::$PR_ITEM"
+        done < pr.txt
+      env:
+        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
