@@ -1,47 +1,22 @@
 # https://stackoverflow.com/a/65236345
-name: Auto merge when label to "to deploy" (dev)
+name: Merge Bot
 
 on:
   pull_request:
-    types: [ labeled ]
-
-env:
-  target_branch: preview/dev
+    types: 
+      - labeled
 
 jobs:
-# github.event.pull_request.head.ref
   build:
-    if: github.event.label.name == '[workflow] to deploy' && github.event.pull_request.base.ref == 'preview/dev'
     runs-on: ubuntu-latest
-
     steps:
-    # - uses: actions/checkout@v2
-    #   with:
-    #     # token: '${{ env.access_token }}'
-    #     ref: '${{ github.event.pull_request.base.ref }}'
     - name: merge
+      if: github.event.label.name == '[workflow] to deploy'
       run: |
         echo "Merging... ${{ github.event.pull_request.title }} #${{ github.event.pull_request.number }}"
         gh pr merge ${{ github.event.pull_request.number }} --repo my-wrm/dummy-project --merge
       env:
         GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-
-# echo "${{ env.ACCESS_TOKEN }}" > token.txt
-# gh auth login --with-token < token.txt
-#     git clone https://mywrm:${{ env.ACCESS_TOKEN }}@github.com/my-wrm/dummy-project.git
-#     cd dummy-project
-#     git config --global user.email "my@wrmsoftware.com"
-#     git config --global user.name "Merge script"
-#     git remote -v
-#     git branch
-#     git checkout ${{ github.event.pull_request.base.ref }}
-#     git merge --no-ff origin/${{ github.event.pull_request.head.ref }}
-
-# - name: push
-#   run: |
-#     cd dummy-project
-#     git remote set-url --push origin https://mywrm:${{ env.ACCESS_TOKEN }}@github.com/my-wrm/dummy-project.git
-#     git push
 
     - name: Send greeting
       run: |
