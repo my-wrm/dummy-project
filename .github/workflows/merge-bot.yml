@@ -22,8 +22,8 @@ jobs:
     - name: Integration check
       uses: squalrus/merge-bot@v0.4.5
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        test: true
+        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        test: false
         reviewers: false
         labels: ready, merge
         blocking_labels: do not merge
