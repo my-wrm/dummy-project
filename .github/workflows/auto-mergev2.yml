@@ -17,9 +17,9 @@ jobs:
     # - uses: actions/checkout@v2
     #   with:
     #     ref: ''
-    - name: merge
-      run: |
-        git config --global user.email "my@wrmsoftware.com"
+    # - name: merge
+    #   run: |
+    #     git config --global user.email "my@wrmsoftware.com"
 
     - name: Send greeting
       run: |
