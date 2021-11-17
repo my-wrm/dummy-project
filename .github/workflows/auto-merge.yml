@@ -32,6 +32,7 @@ jobs:
 
     - name: push
       run: |
+        cd dummy-project
         git push
 
     - name: Send greeting
