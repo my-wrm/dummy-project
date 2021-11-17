@@ -6,12 +6,16 @@ on:
     types: 
       - labeled
 
+env:
+  deploy_label: to deploy
+
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - name: merge
-      if: github.event.label.name == 'to deploy'
+      if: github.event.label.name == ${{ env.deploy_label }}
       run: |
         echo "Merging... ${{ github.event.pull_request.title }} #${{ github.event.pull_request.number }}"
         gh pr merge ${{ github.event.pull_request.number }} --repo my-wrm/dummy-project --merge
