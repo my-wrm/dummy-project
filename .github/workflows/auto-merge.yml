@@ -22,6 +22,7 @@ jobs:
     - name: merge
       run: |
         git clone https://mywrm:${{ env.access_token }}@github.com/my-wrm/dummy-project.git
+        cd dummy-project
         git config --global user.email "my@wrmsoftware.com"
         git config --global user.name "Merge script"
         git remote -v
