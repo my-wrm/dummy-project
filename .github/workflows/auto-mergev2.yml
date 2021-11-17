@@ -1,4 +1,4 @@
-name: Auto merge when label to "to deploy" (dev)
+name: Auto merge
 
 on:
   pull_request:
