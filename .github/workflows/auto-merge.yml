@@ -29,5 +29,5 @@ jobs:
     - name: Send greeting
       run: |
         echo "${{ toJSON(github.event.repository) }}"
-        echo ">> ${{ toJSON(github.event.pull_request.full_name) }}"
+        echo ">> ${{ github.event.pull_request.full_name }}"
 
