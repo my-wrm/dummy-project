@@ -3,8 +3,6 @@ name: Auto merge when label to "to deploy" (dev)
 on:
   pull_request:
     types: [ labeled ]
-#     branches: 
-#       - preview/dev
 
 env:
   target_branch: preview/dev
@@ -21,8 +19,13 @@ jobs:
     #     ref: ''
     - name: merge
       run: |
-        echo "Hello"
-
+        git config --global user.email "my@wrmsoftware.com"
+        git config --global user.name "Merge script"
+        git clone https://mywrm:${{ env.access_token }}@github.com/my-wrm/dummy-project.git
+        cd dummy-project
+        git fetch origin
+        git checkout ${{ github.event.pull_request.base.ref }}
+        git merge --no-ff origin/${{ github.event.pull_request.head.ref }}
     - name: Send greeting
       run: |
         echo ">> ${{ toJSON(github.event.pull_request) }}"
