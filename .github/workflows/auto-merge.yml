@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        token: '${{ env.access_token }}'
+        # token: '${{ env.access_token }}'
         ref: '${{ github.event.pull_request.base.ref }}'
     - name: merge
       run: |
