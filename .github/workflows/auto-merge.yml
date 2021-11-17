@@ -7,7 +7,6 @@ on:
       - labeled
 
 env:
-  repo: my-wrm/dummy-project
   deploy_label: to deploy
   ready_label: ready to deploy
 
@@ -20,9 +19,9 @@ jobs:
       run: |
         echo "label: ${{ env.deploy_label }}"
         echo "Merging... ${{ github.event.pull_request.title }} #${{ github.event.pull_request.number }}"
-        gh pr merge ${{ github.event.pull_request.number }} --merge --repo my-wrm/dummy-project
-        gh pr edit ${{ github.event.pull_request.number }} --remove-label '${{ env.deploy_label }}' --repo my-wrm/dummy-project
-        gh pr edit ${{ github.event.pull_request.number }} --add-label '${{ env.ready_label }}' --repo my-wrm/dummy-project
+        gh pr merge ${{ github.event.pull_request.number }} --squash --repo ${{ github.event.repository.full_name }}
+        gh pr edit ${{ github.event.pull_request.number }} --remove-label '${{ env.deploy_label }}' --repo ${{ github.event.repository.full_name }}
+        gh pr edit ${{ github.event.pull_request.number }} --add-label '${{ env.ready_label }}' --repo ${{ github.event.repository.full_name }}
       env:
         GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
