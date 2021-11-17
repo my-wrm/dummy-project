@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: merge
-      if: github.event.label.name == '[workflow] to deploy'
+      if: github.event.label.name == 'to deploy'
       run: |
         echo "Merging... ${{ github.event.pull_request.title }} #${{ github.event.pull_request.number }}"
         gh pr merge ${{ github.event.pull_request.number }} --repo my-wrm/dummy-project --merge
