@@ -4,12 +4,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy-info:
+  reset:
     runs-on: ubuntu-latest
     steps:
     - name: git checkout
       run: |
-        git clone https://mywrm:${{ secrets.ACCESS_TOKEN }}@github.com/mywrm/dummy-project.git
+        git clone https://my-wrm:${{ secrets.ACCESS_TOKEN }}@github.com/my-wrm/dummy-project.git
         git checkout preview/dev
 # - uses: actions/checkout@v2
 #   with:
