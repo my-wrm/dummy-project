@@ -6,6 +6,7 @@ on:
 env:
   ready_label: ready to deploy
   deployed_label: deployed
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   deploy-info:
@@ -17,10 +18,11 @@ jobs:
         gh pr list --label '${{ env.ready_label }}' --state merged --repo my-wrm/dummy-project > pr.txt
         while read PR_ITEM; do
           PR_NUMBER=$(echo $PR_ITEM | awk '{ print $1 }')
-          PR_TITLE=$(echo $PR_ITEM | awk '{ print $2 }')
+          echo "- #$PR_NUMBER" >> issue.txt
           echo "::notice title=Deploying Pull Request::#$PR_ITEM"
         done < pr.txt
+
+    - name: Create a Pull Request
+      run: |
         TIMESTAMP=$(date '+%b %d, %Y %H:%I')
         gh issue create --title "Deploy to ${{ env.target_env }} at $TIMESTAMP" --body-file "issue.txt"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
