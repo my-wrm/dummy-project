@@ -25,7 +25,7 @@ jobs:
 
     - name: Create a Issue
       run: |
-        echo "Deploy following pull requests:\n\n" > issue.txt
+        echo "Deploy following pull requests:" > issue.txt
         gh pr list --label '${{ env.ready_label }}' --state merged --repo ${{ github.event.repository.full_name }} > pr.txt
         while read PR_ITEM; do
           PR_NUMBER=$(echo $PR_ITEM | awk '{ print $1 }')
