@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
 
 env:
+  target_env: dev
   ready_label: ready to deploy
   deployed_label: deployed
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -12,7 +13,12 @@ jobs:
   deploy-info:
     runs-on: ubuntu-latest
     steps:
-    - name: Show deploy info
+    - name: Set Timezone
+      uses: szenius/set-timezone@v1.0
+      with:
+        timezoneLinux: "Asia/Bangkok"
+        
+    - name: Create a Issue
       run: |
         echo "Deploy following pull requests:\n\n" > issue.txt
         gh pr list --label '${{ env.ready_label }}' --state merged --repo ${{ github.event.repository.full_name }} > pr.txt
@@ -21,8 +27,5 @@ jobs:
           echo "- #$PR_NUMBER" >> issue.txt
           echo "::notice title=Deploying Pull Request::#$PR_ITEM"
         done < pr.txt
-
-    - name: Create a Pull Request
-      run: |
         TIMESTAMP=$(date '+%b %d, %Y %H:%I')
         gh issue create --title "Deploy to ${{ env.target_env }} at $TIMESTAMP" --body-file "issue.txt" --repo ${{ github.event.repository.full_name }}
