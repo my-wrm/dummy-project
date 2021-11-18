@@ -19,9 +19,7 @@ jobs:
     - name: reset
       run: |
         cd dummy-project
-        git reset --hard dev
+        git reset --hard origin/dev
         git config --global user.email "mywrm@wrmsoftware.com"
         git config --global user.name "mywrm"
         git push origin --force
-
-        
