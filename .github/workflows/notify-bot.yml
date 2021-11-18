@@ -31,8 +31,7 @@ jobs:
           PR_NUMBER=$(echo $PR_ITEM | awk '{ print $1 }')
           echo "- #$PR_NUMBER" >> issue.txt
         done < pr.txt
-        TIMESTAMP=$(date '+%b %d, %Y %H:%I')
-        gh issue create --title "Deploy to ${{ env.target_env }} at $TIMESTAMP" --body-file "issue.txt" --repo ${{ github.event.repository.full_name }}
+        gh issue create --title "Deployed to ${{ env.target_env }}" --body-file "issue.txt" --repo ${{ github.event.repository.full_name }}
         
     - name: Update Deploy Status on Pull Request
       run: |
