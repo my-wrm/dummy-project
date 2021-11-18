@@ -1,5 +1,5 @@
 # https://stackoverflow.com/a/65236345
-name: Merge Bot
+name: Preview Merge Bot
 
 on:
   pull_request:
@@ -11,7 +11,7 @@ env:
   ready_label: ready to deploy
 
 jobs:
-  build:
+  merge:
     if: github.event.label.name == 'to deploy'
     runs-on: ubuntu-latest
     steps:
@@ -25,7 +25,14 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
-    - name: Send greeting
+    - name: Create comment
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        issue-number: ${{ github.event.pull_request.number }}
+        body: |
+          Merge pull request #${{ github.event.pull_request.number }}
+
+    - name: debug pull request obj
       run: |
-        echo "${{ github.event.repository.full_name }}"
+        echo "${{ toJSON(github.event.pull_request) }}"
 
