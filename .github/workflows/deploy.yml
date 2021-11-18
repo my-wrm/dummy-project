@@ -20,6 +20,7 @@ jobs:
           PR_TITLE=$(echo $PR_ITEM | awk '{ print $2 }')
           echo "::notice title=Deploying Pull Request::#$PR_ITEM"
         done < pr.txt
-        
+        TIMESTAMP=$(date '+%b %d, %Y %H:%I')
+        gh issue create --title "Deploy to ${{ env.target_env }} at $TIMESTAMP" --body-file "issue.txt"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
