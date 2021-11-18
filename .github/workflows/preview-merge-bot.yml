@@ -1,0 +1,38 @@
+# https://stackoverflow.com/a/65236345
+name: Preview Merge Bot
+
+on:
+  pull_request:
+    types: 
+      - labeled
+
+env:
+  deploy_label: to deploy
+  ready_label: ready to deploy
+
+jobs:
+  merge:
+    if: github.event.label.name == 'to deploy'
+    runs-on: ubuntu-latest
+    steps:
+    - name: merge
+      run: |
+        echo "label: ${{ env.deploy_label }}"
+        echo "Merging... ${{ github.event.pull_request.title }} #${{ github.event.pull_request.number }}"
+        gh pr merge ${{ github.event.pull_request.number }} --squash --repo ${{ github.event.repository.full_name }}
+        gh pr edit ${{ github.event.pull_request.number }} --remove-label '${{ env.deploy_label }}' --repo ${{ github.event.repository.full_name }}
+        gh pr edit ${{ github.event.pull_request.number }} --add-label '${{ env.ready_label }}' --repo ${{ github.event.repository.full_name }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
+    - name: Create comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            Merge pull request #${{ github.event.pull_request.number }}
+
+    - name: debug pull request obj
+      run: |
+        echo "${{ toJSON(github.event.pull_request) }}"
+
