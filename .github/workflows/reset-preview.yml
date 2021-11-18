@@ -1,0 +1,25 @@
+name: Reset Preview
+
+on:
+  workflow_dispatch:
+
+jobs:
+  reset:
+    runs-on: ubuntu-latest
+    steps:
+    - name: git checkout
+      run: |
+        git clone https://my-wrm:${{ secrets.ACCESS_TOKEN }}@github.com/my-wrm/dummy-project.git
+        cd dummy-project
+        git checkout preview/dev
+# - uses: actions/checkout@v2
+#   with:
+#     ref: 'preview/dev'
+
+    - name: reset
+      run: |
+        cd dummy-project
+        git reset --hard origin/dev
+        git config --global user.email "mywrm@wrmsoftware.com"
+        git config --global user.name "mywrm"
+        git push origin --force
