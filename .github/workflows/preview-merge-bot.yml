@@ -26,11 +26,11 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
     - name: Create comment
-        uses: peter-evans/create-or-update-comment@v1
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            Merge pull request #${{ github.event.pull_request.number }}
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        issue-number: ${{ github.event.pull_request.number }}
+        body: |
+          Merge pull request #${{ github.event.pull_request.number }}
 
     - name: debug pull request obj
       run: |
