@@ -1,0 +1,43 @@
+name: CI notify
+
+# Only trigger, when the build workflow succeeded
+on:
+  workflow_run:
+    workflows: ["Preview Merge Bot"]
+    types:
+      - completed
+
+env:
+  target_env: dev
+  ready_label: ready to deploy
+  deployed_label: deployed
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set Timezone
+      uses: szenius/set-timezone@v1.0
+      with:
+        timezoneLinux: "Asia/Bangkok"
+        
+    - name: Create a Issue
+      run: |
+        echo "Deploy following pull requests:\n\n" > issue.txt
+        gh pr list --label '${{ env.ready_label }}' --state merged --repo ${{ github.event.repository.full_name }} > pr.txt
+        while read PR_ITEM; do
+          PR_NUMBER=$(echo $PR_ITEM | awk '{ print $1 }')
+          echo "- #$PR_NUMBER" >> issue.txt
+        done < pr.txt
+        TIMESTAMP=$(date '+%b %d, %Y %H:%I')
+        gh issue create --title "Deploy to ${{ env.target_env }} at $TIMESTAMP" --body-file "issue.txt" --repo ${{ github.event.repository.full_name }}
+        
+    - name: Update Deploy Status on Pull Request
+      run: |
+        while read PR_ITEM; do
+          PR_NUMBER=$(echo $PR_ITEM | awk '{ print $1 }')
+          gh pr edit $PR_NUMBER --remove-label '${{ env.ready_label }}' --repo ${{ github.event.repository.full_name }}
+          gh pr edit $PR_NUMBER --add-label '${{ env.deployed_label }}' --repo ${{ github.event.repository.full_name }}
+          echo "::notice title=Deployed Pull Request::#$PR_ITEM"
+        done < pr.txt
