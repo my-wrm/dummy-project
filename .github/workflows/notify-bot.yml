@@ -3,9 +3,9 @@ name: CI notify
 # Only trigger, when the build workflow succeeded
 on:
   workflow_run:
-    workflows: ["Preview Merge Bot"]
+    workflows: ["Deploy"]
     types:
-      - completed
+      - success
 
 env:
   target_env: dev
@@ -21,7 +21,7 @@ jobs:
       uses: szenius/set-timezone@v1.0
       with:
         timezoneLinux: "Asia/Bangkok"
-        
+
     - name: Create a Issue
       run: |
         echo "Deploy following pull requests:\n\n" > issue.txt
