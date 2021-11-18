@@ -24,5 +24,4 @@ jobs:
 
     - name: Create a Pull Request
       run: |
-        TIMESTAMP=$(date '+%b %d, %Y %H:%I')
-        gh issue create --title "Deploy to ${{ env.target_env }} at $TIMESTAMP" --body-file "issue.txt"
+        gh issue create --title "Deploy to ${{ env.target_env }} " --body-file "issue.txt"
