@@ -23,7 +23,7 @@ jobs:
         gh pr edit ${{ github.event.pull_request.number }} --remove-label '${{ env.deploy_label }}' --repo ${{ github.event.repository.full_name }}
         gh pr edit ${{ github.event.pull_request.number }} --add-label '${{ env.ready_label }}' --repo ${{ github.event.repository.full_name }}
       env:
-        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create comment
       uses: peter-evans/create-or-update-comment@v1
