@@ -25,6 +25,7 @@ jobs:
 
     - name: Create a Issue
       run: |
+        echo "${{ toJSON(github.event.workflow_run) }}"
         echo "Deploy following pull requests:" > issue.txt
         gh pr list --label '${{ env.ready_label }}' --state merged --repo ${{ github.event.repository.full_name }} > pr.txt
         while read PR_ITEM; do
@@ -33,14 +34,14 @@ jobs:
         done < pr.txt
         gh issue create --title "Deployed to ${{ env.target_env }}" --body-file "issue.txt" --repo ${{ github.event.repository.full_name }}
         
-    - name: Update Deploy Status on Pull Request
-      run: |
-        while read PR_ITEM; do
-          PR_NUMBER=$(echo $PR_ITEM | awk '{ print $1 }')
-          gh pr edit $PR_NUMBER --remove-label '${{ env.ready_label }}' --repo ${{ github.event.repository.full_name }}
-          gh pr edit $PR_NUMBER --add-label '${{ env.deployed_label }}' --repo ${{ github.event.repository.full_name }}
-          echo "::notice title=Deployed Pull Request::#$PR_ITEM"
-        done < pr.txt
+    # - name: Update Deploy Status on Pull Request
+    #   run: |
+    #     while read PR_ITEM; do
+    #       PR_NUMBER=$(echo $PR_ITEM | awk '{ print $1 }')
+    #       gh pr edit $PR_NUMBER --remove-label '${{ env.ready_label }}' --repo ${{ github.event.repository.full_name }}
+    #       gh pr edit $PR_NUMBER --add-label '${{ env.deployed_label }}' --repo ${{ github.event.repository.full_name }}
+    #       echo "::notice title=Deployed Pull Request::#$PR_ITEM"
+    #     done < pr.txt
 
   notify-on-failure:
     runs-on: ubuntu-latest
