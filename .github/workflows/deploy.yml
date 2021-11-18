@@ -3,10 +3,22 @@ name: Deploy
 on:
   workflow_dispatch:
 
+env:
+  ready_label: ready to deploy
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+    - name: Deploy info
+      run: |
+        gh pr list --label '${{ env.ready_label }}' --state merged --repo ${{ github.event.repository.full_name }} > pr.txt
+        while read PR_ITEM; do
+          PR_NUMBER=$(echo $PR_ITEM | awk '{ print $1 }')
+          echo "::notice title=Deploying Pull Request::#$PR_ITEM"
+        done < pr.txt
+
     - name: Deploy
       run: |
         echo "Deploying"
