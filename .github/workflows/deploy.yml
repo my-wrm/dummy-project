@@ -4,7 +4,6 @@ on:
   workflow_dispatch:
 
 env:
-  target_env: dev
   ready_label: ready to deploy
   deployed_label: deployed
 
@@ -12,25 +11,16 @@ jobs:
   deploy-info:
     runs-on: ubuntu-latest
     steps:
-    - name: Set Timezone
-      uses: szenius/set-timezone@v1.0
-      with:
-        timezoneLinux: "Asia/Bangkok"
-
-    - name: Show deploy info & Create issue at deploy time
+    - name: show deploy info
       run: |
-        echo "Deploy following pull requests:\n\n" > issue.txt
         gh pr list --label '${{ env.ready_label }}' --state merged --repo my-wrm/dummy-project > pr.txt
         while read PR_ITEM; do
           PR_NUMBER=$(echo $PR_ITEM | awk '{ print $1 }')
-          echo "- #$PR_NUMBER" >> issue.txt
+          PR_TITLE=$(echo $PR_ITEM | awk '{ print $2 }')
+          gh pr edit $PR_NUMBER --remove-label '${{ env.ready_label }}' --repo my-wrm/dummy-project
+          gh pr edit $PR_NUMBER --add-label '${{ env.deployed_label }}' --repo my-wrm/dummy-project
           echo "::notice title=Deploying Pull Request::#$PR_ITEM"
         done < pr.txt
+        
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
-# gh pr edit $PR_NUMBER --remove-label '${{ env.ready_label }}' --repo my-wrm/dummy-project
-# gh pr edit $PR_NUMBER --add-label '${{ env.deployed_label }}' --repo my-wrm/dummy-project
-# TIMESTAMP=$(date '+%b %d, %Y %H:%I')
-# gh issue create --title "Deploy to ${{ env.target_env }} at $TIMESTAMP" --body-file "issue.txt"
