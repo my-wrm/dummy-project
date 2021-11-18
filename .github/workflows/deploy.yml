@@ -12,10 +12,10 @@ jobs:
   deploy-info:
     runs-on: ubuntu-latest
     steps:
-    - name: show deploy info
+    - name: Show deploy info
       run: |
         echo "Deploy following pull requests:\n\n" > issue.txt
-        gh pr list --label '${{ env.ready_label }}' --state merged --repo my-wrm/dummy-project > pr.txt
+        gh pr list --label '${{ env.ready_label }}' --state merged --repo ${{ github.event.repository.full_name }} > pr.txt
         while read PR_ITEM; do
           PR_NUMBER=$(echo $PR_ITEM | awk '{ print $1 }')
           echo "- #$PR_NUMBER" >> issue.txt
@@ -24,4 +24,5 @@ jobs:
 
     - name: Create a Pull Request
       run: |
-        gh issue create --title "Deploy to ${{ env.target_env }} " --body-file "issue.txt"
+        TIMESTAMP=$(date '+%b %d, %Y %H:%I')
+        gh issue create --title "Deploy to ${{ env.target_env }} at $TIMESTAMP" --body-file "issue.txt" --repo ${{ github.event.repository.full_name }}
