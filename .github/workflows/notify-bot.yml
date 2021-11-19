@@ -43,6 +43,11 @@ jobs:
           echo "::notice title=Deployed Pull Request::#$PR_ITEM"
         done < pr.txt
 
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+
   notify-on-failure:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
